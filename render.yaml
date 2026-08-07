@@ -1,0 +1,29 @@
+# ============================================
+# OmniAI — Render Blueprint
+# Single web service: serves API + frontend
+# ============================================
+services:
+  - type: web
+    name: omniai
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev && npm run migrate
+    startCommand: node src/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
