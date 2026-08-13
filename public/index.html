@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniAI — One AI. Every Day. Everything You Need.</title>
+  <meta name="description" content="OmniAI is a world-class AI Super App that unifies the most useful AI tools into one seamless experience.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-logo">✦ OmniAI</div>
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loading-text">Loading your AI Super App...</div>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container" id="app-container" style="display:none">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-icon">✦</span>
+          OmniAI
+        </div>
+        <span class="plan-badge free" id="plan-badge">Free</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Dashboard</div>
+          <div class="nav-item" data-page="dashboard">
+            <span class="nav-icon">📊</span>
+            Dashboard
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <div class="nav-item active" data-page="assistant">
+            <span class="nav-icon">🤖</span>
+            AI Assistant
+            <span class="nav-badge" id="chat-limit-badge">30/day</span>
+          </div>
+          <div class="nav-item" data-page="writing">
+            <span class="nav-icon">✍️</span>
+            Writing Studio
+          </div>
+          <div class="nav-item" data-page="image">
+            <span class="nav-icon">🎨</span>
+            Image Studio
+            <span class="nav-badge" id="image-limit-badge">3/day</span>
+          </div>
+          <div class="nav-item" data-page="video">
+            <span class="nav-icon">🎬</span>
+            Video Studio
+          </div>
+          <div class="nav-item" data-page="pdf">
+            <span class="nav-icon">📄</span>
+            PDF Intelligence
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Productivity</div>
+          <div class="nav-item" data-page="productivity">
+            <span class="nav-icon">📋</span>
+            Smart Productivity
+          </div>
+          <div class="nav-item" data-page="learning">
+            <span class="nav-icon">📚</span>
+            Learning Center
+          </div>
+          <div class="nav-item" data-page="business">
+            <span class="nav-icon">📊</span>
+            Business & Marketing
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Admin</div>
+          <div class="nav-item" id="nav-admin" data-page="admin" style="display:none">
+            <span class="nav-icon">⚙️</span>
+            Admin Panel
+            <span class="nav-badge premium">Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-mini" id="user-profile">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="user-name">User</div>
+            <div class="user-email" id="user-email">user@example.com</div>
+          </div>
+          <div class="user-menu-trigger" id="user-menu-trigger" style="position:relative;cursor:pointer;color:var(--text-muted)">⋮</div>
+        </div>
+      </div>
+
+      <!-- User dropdown -->
+      <div class="user-dropdown" id="user-dropdown" style="display:none">
+        <button class="btn btn-ghost w-full" onclick="OmniAuth.logout()">🚪 Sign Out</button>
+        <button class="btn btn-ghost w-full" onclick="document.getElementById('user-dropdown').style.display='none';document.querySelector('[data-action=\"upgrade\"]')?.click()">✨ Upgrade</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+          <h1 class="page-title" id="page-title">Dashboard</h1>
+        </div>
+        <div class="header-right">
+          <span class="usage-indicator" id="usage-indicator" style="display:none;font-size:0.75rem;color:var(--text-muted);padding:4px 12px;background:var(--bg-card);border-radius:var(--radius-full)"></span>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀️</button>
+          <button class="btn-upgrade" data-action="upgrade">✨ Upgrade</button>
+        </div>
+      </header>
+
+      <div class="page-content">
+
+        <!-- PAGE: DASHBOARD -->
+        <div class="page-section" id="page-dashboard">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">📊 Dashboard</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem" id="dashboard-greeting">Welcome back</p>
+          </div>
+          <div class="stats-grid" id="dashboard-stats">
+            <div class="stat-card"><div class="stat-value" id="stat-todos">0</div><div class="stat-label">Tasks Done</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-streak">0</div><div class="stat-label">Day Streak</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-chats">0</div><div class="stat-label">AI Chats Today</div></div>
+            <div class="stat-card"><div class="stat-value" id="stat-images">0</div><div class="stat-label">Images Generated</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md)">
+            <div class="card">
+              <div class="card-title mb-md">⚡ Quick Actions</div>
+              <div style="display:flex;flex-direction:column;gap:var(--space-sm)">
+                <button class="btn btn-secondary w-full" onclick="OmniAI.navigateTo('assistant')">🤖 Open AI Chat</button>
+                <button class="btn btn-secondary w-full" onclick="OmniAI.navigateTo('writing')">✍️ Write Something</button>
+                <button class="btn btn-secondary w-full" onclick="OmniAI.navigateTo('image')">🎨 Generate Image</button>
+                <button class="btn btn-secondary w-full" onclick="OmniAI.navigateTo('productivity')">📋 View Tasks</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title mb-md">📈 Progress</div>
+              <div id="dashboard-progress">
+                <div style="text-align:center;color:var(--text-muted);padding:var(--space-lg)">Loading your progress...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: AI ASSISTANT -->
+        <div class="page-section" id="page-assistant">
+          <div class="card chat-container" id="assistant-chat">
+            <div class="chat-messages" id="chat-messages">
+              <div class="message assistant">
+                <div class="message-avatar">O</div>
+                <div>
+                  <div class="message-content">Hello! I'm your OmniAI assistant. I can help you with questions, writing, research, brainstorming, and more. What can I help you with today?</div>
+                  <div class="message-time">Just now</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="quick-prompts" id="quick-prompts">
+                <button class="quick-prompt" data-prompt="Explain quantum computing simply">Explain quantum computing</button>
+                <button class="quick-prompt" data-prompt="Help me brainstorm business ideas for AI">Brainstorm business ideas</button>
+                <button class="quick-prompt" data-prompt="Summarize the key principles of machine learning">Summarize ML principles</button>
+                <button class="quick-prompt" data-prompt="Write a short poem about artificial intelligence">Write a poem about AI</button>
+              </div>
+              <div class="chat-input-area">
+                <textarea class="chat-input" id="chat-input" placeholder="Ask me anything..." rows="1"></textarea>
+                <button class="chat-send-btn" id="chat-send-btn">➤</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: WRITING STUDIO -->
+        <div class="page-section" id="page-writing">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">✍️ AI Writing Studio</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Generate professional content in seconds</p>
+          </div>
+          <div class="tool-container" id="writing-tool">
+            <div>
+              <div class="card mb-md">
+                <div class="input-group">
+                  <label class="input-label">Content Type</label>
+                  <select class="input-field" id="writing-type">
+                    <option value="writing">Article</option>
+                    <option value="writing">Blog Post</option>
+                    <option value="writing">Email</option>
+                    <option value="writing">Social Media Caption</option>
+                    <option value="writing">Product Description</option>
+                    <option value="writing">Script</option>
+                    <option value="writing">Business Proposal</option>
+                    <option value="seo">SEO Content</option>
+                  </select>
+                </div>
+                <div class="options-bar">
+                  <label class="input-label" style="width:100%;margin-bottom:var(--space-sm)">Tone</label>
+                  <button class="option-chip" data-tone="professional">Professional</button>
+                  <button class="option-chip active" data-tone="casual">Casual</button>
+                  <button class="option-chip" data-tone="persuasive">Persuasive</button>
+                  <button class="option-chip" data-tone="creative">Creative</button>
+                </div>
+                <div class="options-bar">
+                  <label class="input-label" style="width:100%;margin-bottom:var(--space-sm)">Length</label>
+                  <button class="option-chip" data-length="short">Short</button>
+                  <button class="option-chip active" data-length="medium">Medium</button>
+                  <button class="option-chip" data-length="long">Long</button>
+                </div>
+              </div>
+              <div class="card">
+                <div class="input-group">
+                  <label class="input-label">Describe what you want to write</label>
+                  <textarea class="input-field" id="writing-prompt" placeholder="e.g., Write a professional email to propose a collaboration..." rows="4"></textarea>
+                </div>
+                <button class="btn btn-primary btn-lg w-full mt-md" id="writing-generate">✨ Generate</button>
+                <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-sm)" id="writing-actions">
+                  <button class="btn btn-ghost btn-sm" id="writing-improve">✨ Improve</button>
+                  <button class="btn btn-ghost btn-sm" id="writing-rewrite">🔄 Rewrite</button>
+                  <button class="btn btn-ghost btn-sm" id="writing-shorten">📏 Shorten</button>
+                  <button class="btn btn-ghost btn-sm" id="writing-expand">📖 Expand</button>
+                  <button class="btn btn-ghost btn-sm" id="writing-grammar">📝 Fix Grammar</button>
+                </div>
+              </div>
+            </div>
+            <div class="tool-output">
+              <div class="tool-output-header">
+                <span class="tool-output-title">Output</span>
+                <div class="tool-output-actions">
+                  <button class="btn btn-ghost btn-sm" id="writing-copy">📋 Copy</button>
+                  <button class="btn btn-ghost btn-sm" id="writing-regen">🔄 Regenerate</button>
+                </div>
+              </div>
+              <div class="tool-output-empty" id="writing-empty">
+                <div class="empty-icon">✍️</div>
+                <div class="empty-text">Your generated content will appear here.</div>
+              </div>
+              <div class="tool-output-content" id="writing-output"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: IMAGE STUDIO -->
+        <div class="page-section" id="page-image">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">🎨 AI Image Studio</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Generate, enhance, and transform images with AI</p>
+          </div>
+          <div class="tool-container" id="image-studio">
+            <div>
+              <div class="card mb-md">
+                <div class="input-group">
+                  <label class="input-label">Describe your image</label>
+                  <textarea class="input-field" id="image-prompt" placeholder="e.g., A futuristic city at sunset with flying cars..." rows="3"></textarea>
+                </div>
+                <div class="options-bar mt-sm">
+                  <button class="option-chip active">Auto-Enhance Prompt</button>
+                </div>
+                <button class="btn btn-primary btn-lg w-full mt-md" id="image-generate">🎨 Generate</button>
+              </div>
+              <div class="card" style="display:flex;gap:var(--space-sm);flex-wrap:wrap">
+                <button class="btn btn-secondary btn-sm" id="image-download">⬇️ Download</button>
+              </div>
+              <div class="card mt-md">
+                <div class="card-title mb-md">📸 Generation History</div>
+                <div class="image-history" id="image-history"></div>
+              </div>
+            </div>
+            <div>
+              <div class="image-preview" id="image-preview">
+                <div class="placeholder">
+                  <div class="icon">🎨</div>
+                  <div>Your image will appear here</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: VIDEO STUDIO -->
+        <div class="page-section" id="page-video">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">🎬 AI Video Studio</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Plan, script, and structure your video content</p>
+          </div>
+          <div class="tool-container single-col" id="video-studio">
+            <div class="card mb-md">
+              <div class="input-group">
+                <label class="input-label">Video Type</label>
+                <select class="input-field" id="video-type">
+                  <option value="script">Video Script</option>
+                  <option value="storyboard">Storyboard & Scene Plan</option>
+                  <option value="hooks">Hook Ideas</option>
+                  <option value="captions">Caption & Description</option>
+                  <option value="thumbnail">Thumbnail Ideas</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label class="input-label">Describe your video concept</label>
+                <textarea class="input-field" id="video-prompt" placeholder="Describe your video topic, audience, and goals..." rows="3"></textarea>
+              </div>
+              <button class="btn btn-primary btn-lg w-full mt-md" id="video-generate">🎬 Generate</button>
+            </div>
+            <div class="tool-output">
+              <div class="tool-output-header">
+                <span class="tool-output-title">Video Content</span>
+                <div class="tool-output-actions">
+                  <button class="btn btn-ghost btn-sm" id="video-copy">📋 Copy</button>
+                  <button class="btn btn-ghost btn-sm" id="video-regen">🔄 Regenerate</button>
+                </div>
+              </div>
+              <div class="tool-output-empty" id="video-empty">
+                <div class="empty-icon">🎬</div>
+                <div class="empty-text">Your video content will appear here.</div>
+              </div>
+              <div class="tool-output-content" id="video-output"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: PDF INTELLIGENCE -->
+        <div class="page-section" id="page-pdf">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">📄 PDF & Document Intelligence</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Upload documents and extract insights instantly</p>
+          </div>
+          <div class="tool-container" id="pdf-intelligence">
+            <div>
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Drop your PDF here</div>
+                <div class="upload-subtext">or click to browse (PDF, DOCX, TXT)</div>
+                <input type="file" id="pdf-upload" accept=".pdf,.docx,.txt" style="display:none">
+              </div>
+              <div class="pdf-file-list" id="pdf-file-list"></div>
+              <div class="mt-md" style="display:flex;gap:var(--space-sm);flex-wrap:wrap">
+                <button class="btn btn-secondary btn-sm" id="pdf-summarize">📝 Summarize</button>
+                <button class="btn btn-secondary btn-sm" id="pdf-export">⬇️ Export Summary</button>
+              </div>
+            </div>
+            <div class="tool-output">
+              <div class="tool-output-header">
+                <span class="tool-output-title">Document Analysis</span>
+              </div>
+              <div class="tool-output-empty" id="pdf-empty">
+                <div class="empty-icon">📄</div>
+                <div class="empty-text">Upload a document and ask questions about it.</div>
+              </div>
+              <div class="tool-output-content" id="pdf-output"></div>
+              <div style="margin-top:var(--space-md);padding-top:var(--space-md);border-top:1px solid var(--border-light)">
+                <div style="display:flex;gap:var(--space-sm)">
+                  <input class="input-field" id="pdf-query" placeholder="Ask a question about your document..." style="flex:1">
+                  <button class="btn btn-primary btn-sm" id="pdf-ask">Ask</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: PRODUCTIVITY -->
+        <div class="page-section" id="page-productivity">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">📋 Smart Productivity</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Manage tasks, notes, habits, and goals in one place</p>
+          </div>
+          <div class="stats-grid" id="prod-stats">
+            <div class="stat-card"><div class="stat-value" id="prod-total">0</div><div class="stat-label">Total Tasks</div></div>
+            <div class="stat-card"><div class="stat-value" id="prod-done">0</div><div class="stat-label">Completed</div></div>
+            <div class="stat-card"><div class="stat-value" id="prod-streak">0</div><div class="stat-label">Best Streak</div></div>
+            <div class="stat-card"><div class="stat-value" id="prod-goals">0</div><div class="stat-label">Goals</div></div>
+          </div>
+          <div class="card mb-lg">
+            <div class="options-bar">
+              <button class="option-chip active" data-section="todo">📋 To-Do</button>
+              <button class="option-chip" data-section="notes">📝 Notes</button>
+              <button class="option-chip" data-section="habits">🎯 Habits</button>
+              <button class="option-chip" data-section="goals">🏆 Goals</button>
+              <button class="option-chip" data-section="calendar">📅 Calendar</button>
+            </div>
+            <div class="productivity-section" id="prod-todo">
+              <div class="mt-md">
+                <div style="display:flex;gap:var(--space-sm);margin-bottom:var(--space-md)">
+                  <input class="input-field" id="todo-input" placeholder="Add a new task..." style="flex:1">
+                  <button class="btn btn-primary btn-sm" id="todo-add">Add</button>
+                </div>
+                <div class="todo-list" id="todo-list"></div>
+              </div>
+            </div>
+            <div class="productivity-section hidden" id="prod-notes">
+              <div class="mt-md">
+                <input class="input-field mb-sm" id="note-title" placeholder="Note title..." style="width:100%">
+                <textarea class="input-field w-full" id="note-content" placeholder="Write your notes here..." style="min-height:150px"></textarea>
+                <button class="btn btn-primary btn-sm mt-sm" id="note-save">💾 Save Note</button>
+                <div id="notes-list" class="mt-md" style="display:flex;flex-direction:column;gap:var(--space-sm)"></div>
+              </div>
+            </div>
+            <div class="productivity-section hidden" id="prod-habits">
+              <div class="mt-md">
+                <div style="display:flex;gap:var(--space-sm);margin-bottom:var(--space-md)">
+                  <input class="input-field" id="habit-input" placeholder="New habit..." style="flex:1">
+                  <button class="btn btn-primary btn-sm" id="habit-add">Add Habit</button>
+                </div>
+                <div id="habits-list"></div>
+              </div>
+            </div>
+            <div class="productivity-section hidden" id="prod-goals">
+              <div class="mt-md">
+                <div style="display:flex;gap:var(--space-sm);margin-bottom:var(--space-md)">
+                  <input class="input-field" id="goal-input" placeholder="New goal..." style="flex:1">
+                  <button class="btn btn-primary btn-sm" id="goal-add">Add Goal</button>
+                </div>
+                <div id="goals-list"></div>
+              </div>
+            </div>
+            <div class="productivity-section hidden" id="prod-calendar">
+              <div class="mt-md">
+                <div style="text-align:center;font-size:1.25rem;font-weight:700;margin-bottom:var(--space-md)" id="cal-month"></div>
+                <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:var(--space-xs);text-align:center;font-size:0.75rem"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: LEARNING CENTER -->
+        <div class="page-section" id="page-learning">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">📚 AI Learning Center</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Your personal AI tutor — learn anything faster</p>
+          </div>
+          <div class="tool-container single-col">
+            <div class="card mb-md">
+              <div class="input-group">
+                <label class="input-label">What would you like to learn?</label>
+                <textarea class="input-field" id="learning-topic" placeholder="e.g., Explain machine learning, help me understand quantum physics..." rows="3"></textarea>
+              </div>
+              <div class="options-bar mt-sm">
+                <label class="input-label" style="width:100%;margin-bottom:var(--space-sm)">Level</label>
+                <button class="option-chip active" data-level="beginner">Beginner</button>
+                <button class="option-chip" data-level="intermediate">Intermediate</button>
+                <button class="option-chip" data-level="advanced">Advanced</button>
+              </div>
+              <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;margin-top:var(--space-md)">
+                <button class="btn btn-primary" id="learning-explain">📖 Explain</button>
+                <button class="btn btn-secondary" id="learning-flashcards">🧠 Flashcards</button>
+                <button class="btn btn-secondary" id="learning-quiz">📝 Quiz</button>
+                <button class="btn btn-secondary" id="learning-studyplan">📅 Study Plan</button>
+                <button class="btn btn-secondary" id="learning-roadmap">🗺️ Roadmap</button>
+              </div>
+            </div>
+            <div class="tool-output">
+              <div class="tool-output-header">
+                <span class="tool-output-title">Learning Content</span>
+              </div>
+              <div class="tool-output-empty" id="learning-empty">
+                <div class="empty-icon">📚</div>
+                <div class="empty-text">Ask a question or generate learning materials.</div>
+              </div>
+              <div class="tool-output-content" id="learning-output"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: BUSINESS -->
+        <div class="page-section" id="page-business">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">📊 Business & Marketing AI</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Validate ideas, create marketing plans, and grow your business</p>
+          </div>
+          <div class="tool-container single-col">
+            <div class="card mb-md">
+              <div class="options-bar mb-md">
+                <button class="option-chip active" data-biz="ideas">💡 Business Ideas</button>
+                <button class="option-chip" data-biz="marketing">📢 Marketing Plan</button>
+                <button class="option-chip" data-biz="brand">🏷️ Brand Names</button>
+                <button class="option-chip" data-biz="seo">🔍 SEO Content</button>
+                <button class="option-chip" data-biz="calendar">📅 Content Calendar</button>
+                <button class="option-chip" data-biz="logo">🎨 Generate Logo</button>
+              </div>
+              <textarea class="input-field w-full" id="business-prompt" placeholder="Describe your business or industry..." rows="3"></textarea>
+              <button class="btn btn-primary btn-lg w-full mt-md" id="business-generate">🚀 Generate</button>
+            </div>
+            <div class="tool-output">
+              <div class="tool-output-header">
+                <span class="tool-output-title">Business Insights</span>
+                <div class="tool-output-actions">
+                  <button class="btn btn-ghost btn-sm" id="biz-copy">📋 Copy</button>
+                </div>
+              </div>
+              <div class="tool-output-empty" id="business-empty">
+                <div class="empty-icon">📊</div>
+                <div class="empty-text">Describe your business needs and generate actionable insights.</div>
+              </div>
+              <div class="tool-output-content" id="business-output"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: ADMIN -->
+        <div class="page-section" id="page-admin">
+          <div class="mb-lg">
+            <h2 style="font-size:1.5rem;font-weight:700">⚙️ Admin Panel</h2>
+            <p style="color:var(--text-secondary);font-size:0.875rem">Monitor and manage the platform</p>
+          </div>
+          <div class="stats-grid" id="admin-stats">
+            <div class="stat-card"><div class="stat-value" id="admin-users">0</div><div class="stat-label">Total Users</div></div>
+            <div class="stat-card"><div class="stat-value" id="admin-active">0</div><div class="stat-label">Active Today</div></div>
+            <div class="stat-card"><div class="stat-value" id="admin-premium">0</div><div class="stat-label">Premium Users</div></div>
+            <div class="stat-card"><div class="stat-value" id="admin-revenue">$0</div><div class="stat-label">Monthly Revenue</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md)">
+            <div class="card"><div class="card-title mb-md">📊 AI Usage</div><pre id="admin-usage" style="font-size:0.8125rem;color:var(--text-secondary);white-space:pre-wrap">Loading...</pre></div>
+            <div class="card"><div class="card-title mb-md">🛡️ System Health</div><pre id="admin-health" style="font-size:0.8125rem;color:var(--text-secondary);white-space:pre-wrap">Loading...</pre></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Premium Modal -->
+  <div class="modal-overlay" id="premium-modal" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">🚀 Upgrade to Premium</h3>
+        <button class="modal-close" id="premium-close">✕</button>
+      </div>
+      <div>
+        <p style="color:var(--text-secondary);margin-bottom:var(--space-lg)">Unlock unlimited access to all AI features.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-lg)">
+          <div class="card" style="text-align:center;padding:var(--space-lg);border:2px solid var(--border)">
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:var(--space-sm)">MONTHLY</div>
+            <div style="font-size:2rem;font-weight:800">$19</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:var(--space-md)">per month</div>
+            <button class="btn btn-primary w-full">Subscribe</button>
+          </div>
+          <div class="card" style="text-align:center;padding:var(--space-lg);border:2px solid var(--primary);position:relative;overflow:hidden">
+            <div style="position:absolute;top:8px;right:8px;background:var(--gradient-accent);color:white;padding:2px 8px;border-radius:var(--radius-full);font-size:0.625rem;font-weight:600">BEST VALUE</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:var(--space-sm)">ANNUAL</div>
+            <div style="font-size:2rem;font-weight:800">$149</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:var(--space-md)">per year (save 35%)</div>
+            <button class="btn" style="background:var(--gradient-accent);color:white;width:100%">Subscribe</button>
+          </div>
+        </div>
+        <ul style="color:var(--text-secondary);font-size:0.8125rem;display:flex;flex-direction:column;gap:var(--space-sm)">
+          <li>✓ Unlimited AI requests</li>
+          <li>✓ Faster response times</li>
+          <li>✓ Advanced AI models</li>
+          <li>✓ Unlimited image generation</li>
+          <li>✓ Unlimited document uploads</li>
+          <li>✓ Priority support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configure API URL (change in production to your backend)
+    window.OMNIAI_API_URL = localStorage.getItem('omniai_api_url') || 'http://localhost:3001/api';
+  </script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
